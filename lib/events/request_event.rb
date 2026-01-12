@@ -7,7 +7,7 @@ module Low
     class RequestEvent < Event
       attr_reader :request
 
-      def initialize(request:)
+      def initialize(action: :handle, request:)
         super()
 
         @request = request
