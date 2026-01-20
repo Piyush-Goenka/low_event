@@ -6,6 +6,8 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
+  gem 'observers', path: '../observers'
+
   gem 'pry'
   gem 'pry-nav'
   gem 'rack'
