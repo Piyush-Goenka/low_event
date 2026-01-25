@@ -10,6 +10,11 @@ module Low
       @action = action
     end
 
+    # Consider LowEvent a value object.
+    def ==(other) = other.class == self.class
+    def eql?(other) = self == other
+    def hash = [self.class].hash
+
     # Integrate with Observers, providing a self-contained API via an event's class.
     class << self
       def trigger(**kwargs)
