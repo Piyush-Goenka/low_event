@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'low_event'
-
 module Low
   module Events
-    class RenderEvent < Event
-      attr_reader :render
-
+    RenderEvent = Data.define(:action, :render) do
       def initialize(action: :render, render: nil)
-        super(action:)
-
-        @render = render
+        super
       end
     end
   end

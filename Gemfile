@@ -6,6 +6,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
+  gem 'observers', path: '../observers'
+  gem 'low_type', path: '../low_type'
+
   gem 'pry'
   gem 'pry-nav'
   gem 'rack'

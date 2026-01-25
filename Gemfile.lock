@@ -1,7 +1,19 @@
 PATH
+  remote: ../low_type
+  specs:
+    low_type (1.1.7)
+      expressions (~> 0.1)
+
+PATH
+  remote: ../observers
+  specs:
+    observers (0.5.2)
+      low_dependency
+
+PATH
   remote: .
   specs:
-    low_event (0.2.0)
+    low_event (0.3.0)
       low_type (~> 1.0)
       observers
       protocol-http
@@ -12,12 +24,13 @@ GEM
     ast (2.4.3)
     coderay (1.1.3)
     diff-lcs (1.6.2)
+    expressions (0.1.0)
     json (2.16.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
-    low_type (1.1.3)
+    low_dependency (0.3.1)
+      expressions (~> 0.1)
     method_source (1.1.0)
-    observers (0.0.2)
     parallel (1.27.0)
     parser (3.3.10.0)
       ast (~> 2.4.1)
@@ -74,6 +87,8 @@ PLATFORMS
 
 DEPENDENCIES
   low_event!
+  low_type!
+  observers!
   pry
   pry-nav
   rack
