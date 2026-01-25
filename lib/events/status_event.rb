@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'low_event'
+require_relative 'event'
 
 module Low
   module Events

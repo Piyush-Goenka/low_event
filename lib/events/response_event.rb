@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'protocol/http'
-require_relative 'low_event'
+require_relative 'event'
 
 module Low
   module Events

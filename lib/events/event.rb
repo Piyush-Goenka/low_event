@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'observers'
-
 module Low
   Event = Data.define(:action) do
     include LowType

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'low_event'
-
 module Low
   module Events
     RenderEvent = Data.define(:action, :render) do
