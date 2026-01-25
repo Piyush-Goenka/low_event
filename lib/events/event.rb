@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Low
-  Event = Data.define(:action) do
+  class Event
     include LowType
+
+    attr_reader :action
 
     def initialize(action: nil)
       @action = action
