@@ -7,7 +7,7 @@ gemspec
 
 group :development do
   gem 'observers', path: '../observers'
-  gem 'low_type', path: '../low_type'
+  gem 'low_type', path: '../lowtype'
 
   gem 'pry'
   gem 'pry-nav'
