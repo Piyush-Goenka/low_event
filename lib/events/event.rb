@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'observers'
+
 module Low
   class Event
     include LowType
@@ -15,12 +17,13 @@ module Low
     def eql?(other) = self == other
     def hash = [self.class].hash
 
-    # Integrate with Observers, providing a self-contained API via an event's class.
+    # Integrate with Observers with an event-centric API.
     class << self
       def trigger(**kwargs)
-        observable = Observers::Observables[self] || raise(Observers::Observables::MissingKeyError)
         event = new(**kwargs)
-        observable.trigger action: event.action, event:
+
+        key = Observers::Keys[self] || raise(Observers::Keys::MissingKeyError)
+        key.trigger action: event.action, event:
       end
 
       def inherited(child)
