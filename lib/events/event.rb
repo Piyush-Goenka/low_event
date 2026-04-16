@@ -7,9 +7,11 @@ module Low
     include LowType
 
     attr_reader :action
+    attr_accessor :children
 
-    def initialize(action: nil)
+    def initialize(action: nil, children: [])
       @action = action
+      @children = children
     end
 
     # Consider LowEvent a value object.
