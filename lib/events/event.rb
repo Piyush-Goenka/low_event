@@ -42,13 +42,17 @@ module Low
 
     class << self
       def trigger(**kwargs)
-        key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-        key.trigger event: new(**kwargs)
+        event = new(**kwargs)
+        # TODO: Test that when event.key is empty that an error is raised.
+        key = Observers::Keys[event.key] || raise(Observers::Keys::MissingKeyError)
+        key.trigger event:
       end
 
       def take(**kwargs)
-        key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-        key.trigger event: new(**kwargs)
+        event = new(**kwargs)
+        # TODO: Test that when event.key is empty that an error is raised.
+        key = Observers::Keys[event.key] || raise(Observers::Keys::MissingKeyError)
+        key.trigger event:
       end
 
       def inherited(child)
