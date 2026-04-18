@@ -3,15 +3,31 @@
 require 'observers'
 
 module Low
+  # An event represents what is currently happening in your application.
+  #
+  # Events are mutable in most cases (except for RenderEvent). They are action-driven, representing inputs and outputs
+  # that are currently happening in a linear pipeline-like flow. They are present-tense and one-to-many with one return value.
+  # The result of the previous event is made available to the next event. [UNRELEASED]
+  #
+  # Integrations:
+  # - EventStream for a tree of events and their child events [IN PROGRESS]
+  # - LowState for state machines, allowing events to perform multiple actions [UNLRELEASED]
+  # - Observers for observer pattern via an event-centric API [IN PROGRESS]
   class Event
     include LowType
 
-    attr_reader :action
+    attr_reader :key, :action
     attr_accessor :children
 
-    def initialize(action: nil, children: [])
+    def initialize(key: self.class, action: nil, children: [])
+      @key = key
       @action = action
       @children = children
+    end
+
+    def trigger
+      key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
+      key.trigger action: event.action, event: self
     end
 
     # Consider LowEvent a value object.
@@ -19,12 +35,11 @@ module Low
     def eql?(other) = self == other
     def hash = [self.class].hash
 
-    # Integrate with Observers with an event-centric API.
     class << self
       def trigger(**kwargs)
         event = new(**kwargs)
 
-        key = Observers::Keys[self] || raise(Observers::Keys::MissingKeyError)
+        key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
         key.trigger action: event.action, event:
       end
 
