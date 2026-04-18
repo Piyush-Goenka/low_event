@@ -8,7 +8,7 @@ module Low
       attr_reader :request
 
       def initialize(request:, action: :handle)
-        super(key: self, action:)
+        super(key: self.class, action:)
 
         @request = request
       end
