@@ -19,7 +19,7 @@ module Low
     attr_reader :key, :action
     attr_accessor :children
 
-    def initialize(key: self.class, action: nil, children: [])
+    def initialize(key:, action: nil, children: [])
       @key = key
       @action = action
       @children = children
