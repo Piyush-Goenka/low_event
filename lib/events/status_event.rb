@@ -8,7 +8,7 @@ module Low
       attr_reader :status, :request
 
       def initialize(status:, request:)
-        super()
+        super(key: status)
 
         @status = status
         @request = request

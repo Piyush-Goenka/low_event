@@ -27,7 +27,12 @@ module Low
 
     def trigger
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-      key.trigger action: event.action, event: self
+      key.trigger event: self
+    end
+
+    def take
+      key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
+      key.take event: self
     end
 
     # Consider LowEvent a value object.
@@ -37,10 +42,13 @@ module Low
 
     class << self
       def trigger(**kwargs)
-        event = new(**kwargs)
-
         key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-        key.trigger action: event.action, event:
+        key.trigger event: new(**kwargs)
+      end
+
+      def take(**kwargs)
+        key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
+        key.trigger event: new(**kwargs)
       end
 
       def inherited(child)
