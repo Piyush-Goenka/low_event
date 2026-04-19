@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'observers'
+require_relative '../streaming/stream_pool'
 
 module Low
   # An event represents what is currently happening in your application.
@@ -10,7 +11,7 @@ module Low
   # The result of the previous event is made available to the next event. [UNRELEASED]
   #
   # Integrations:
-  # - EventStream for a tree of events and their child events [IN PROGRESS]
+  # - StreamPool for a tree of events and their child events [IN PROGRESS]
   # - LowState for state machines, allowing events to perform multiple actions [UNLRELEASED]
   # - Observers for observer pattern via an event-centric API [IN PROGRESS]
   class Event
@@ -43,9 +44,16 @@ module Low
     class << self
       def trigger(**kwargs)
         event = new(**kwargs)
+
+        stream_tree = Low::Providers['low.event.pool'].stream_tree
+        stream_tree.branch(event:)
+
         # TODO: Test that when event.key is empty that an error is raised.
         key = Observers::Keys[event.key] || raise(Observers::Keys::MissingKeyError)
-        key.trigger event:
+
+        key.trigger(event:) do
+          stream_tree.current_event = event
+        end
       end
 
       def take(**kwargs)
