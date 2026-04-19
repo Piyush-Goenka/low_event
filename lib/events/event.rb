@@ -2,6 +2,7 @@
 
 require 'observers'
 require_relative '../streaming/stream_pool'
+require_relative '../support/value_object'
 
 module Low
   # An event represents what is currently happening in your application.
@@ -12,10 +13,11 @@ module Low
   #
   # Integrations:
   # - StreamPool for a tree of events and their child events [IN PROGRESS]
-  # - LowState for state machines, allowing events to perform multiple actions [UNLRELEASED]
   # - Observers for observer pattern via an event-centric API [IN PROGRESS]
+  # - LowState for state machines to trigger multiple actions [UNLRELEASED]
   class Event
     include LowType
+    include ValueObject
 
     attr_reader :key, :action
     attr_accessor :children
@@ -35,11 +37,6 @@ module Low
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
       key.take event: self
     end
-
-    # Consider LowEvent a value object.
-    def ==(other) = other.class == self.class
-    def eql?(other) = self == other
-    def hash = [self.class].hash
 
     class << self
       def trigger(**kwargs)
