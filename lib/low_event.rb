@@ -10,10 +10,10 @@ require_relative 'events/request_event'
 require_relative 'events/response_event'
 require_relative 'events/status_event'
 require_relative 'factories/response_factory' # TODO: Find out who's using this and require it there.
-require_relative 'streaming/event_pool'
+require_relative 'streams/stream_pool'
 
 LowDependency.provide('low.event.pool') do
-  Low::Streaming::StreamPool.new
+  Low::Streams::StreamPool.new
 end
 
 LowEvent = Low::Event

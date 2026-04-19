@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'observers'
-require_relative '../streaming/stream_pool'
+require_relative '../streams/stream_pool'
 require_relative '../support/value_object'
 
 module Low
@@ -22,6 +22,8 @@ module Low
     attr_reader :key, :action
     attr_accessor :children
 
+    ROOT_FIBER = Fiber.current
+
     def initialize(key:, action: nil, children: [])
       @key = key
       @action = action
@@ -29,35 +31,38 @@ module Low
     end
 
     def trigger
+      stream_tree = branch(event: self)
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-      key.trigger event: self
+      key.trigger(event: self) { restore_level(stream_tree:) }
     end
 
     def take
+      stream_tree = branch(event: self)
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-      key.take event: self
+      key.take(event: self) { restore_level(stream_tree:) }
+    end
+
+    private
+
+    def branch(event:)
+      # Don't create a singular forever growing singular stream tree.
+      return nil if ROOT_FIBER == Fiber.current
+
+      stream_tree = Low::Providers['low.event.pool'].stream_tree
+      stream_tree.branch(event: self)
+    end
+
+    def restore_level(stream_tree:)
+      stream_tree.current_event = self if stream_tree.respond_to?(:current_event)
     end
 
     class << self
       def trigger(**kwargs)
-        event = new(**kwargs)
-
-        stream_tree = Low::Providers['low.event.pool'].stream_tree
-        stream_tree.branch(event:)
-
-        # TODO: Test that when event.key is empty that an error is raised.
-        key = Observers::Keys[event.key] || raise(Observers::Keys::MissingKeyError)
-
-        key.trigger(event:) do
-          stream_tree.current_event = event
-        end
+        new(**kwargs).trigger
       end
 
       def take(**kwargs)
-        event = new(**kwargs)
-        # TODO: Test that when event.key is empty that an error is raised.
-        key = Observers::Keys[event.key] || raise(Observers::Keys::MissingKeyError)
-        key.trigger event:
+        new(**kwargs).take
       end
 
       def inherited(child)

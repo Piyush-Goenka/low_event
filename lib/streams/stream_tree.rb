@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Low
-  module Streaming
+  module Streams
     class StreamTree
       attr_reader :root_event
       attr_accessor :current_event

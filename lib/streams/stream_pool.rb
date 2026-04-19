@@ -4,7 +4,7 @@ require_relative 'pool_hash'
 require_relative 'stream_tree'
 
 module Low
-  module Streaming
+  module Streams
     class StreamPool
       BUFFER_SIZE = 100.freeze
 
@@ -13,7 +13,7 @@ module Low
       end      
 
       def stream_tree
-        @pool[stream_id] || @pool[stream_id] = StreamTree.new
+        @pool[stream_id] || @pool.add(stream_id, StreamTree.new)
       end      
 
       private

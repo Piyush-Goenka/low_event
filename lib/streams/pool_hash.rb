@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Low
-  module Streaming
+  module Streams
     class PoolHash < Hash
       def initialize(max_size)
         @max_size = max_size
@@ -9,7 +9,7 @@ module Low
         super()
       end
 
-      def []=(key, value)
+      def add(key, value)
         # Prune the hash when a new item added.
         shift if size >= @max_size && !key?(key)
         self[key] = value
