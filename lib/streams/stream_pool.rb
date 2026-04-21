@@ -12,7 +12,7 @@ module Low
         @pool = PoolHash.new(BUFFER_SIZE)
       end      
 
-      def stream_tree
+      def current_stream
         @pool[stream_id] || @pool.add(stream_id, StreamTree.new)
       end      
 

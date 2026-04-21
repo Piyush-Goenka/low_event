@@ -45,10 +45,10 @@ module Low
     private
 
     def branch(event:)
-      # Don't create a singular forever growing singular stream tree.
+      # Don't create a singular ever-growing stream tree.
       return nil if ROOT_FIBER == Fiber.current
 
-      stream_tree = Low::Providers['low.event.pool'].stream_tree
+      stream_tree = Low::Providers['low.event.pool'].current_stream
       stream_tree.branch(event: self)
     end
 
