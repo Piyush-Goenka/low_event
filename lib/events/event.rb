@@ -19,7 +19,7 @@ module Low
     include LowType
     include ValueObject
 
-    attr_reader :key, :action
+    attr_reader :key, :action, :created_at
     attr_accessor :children
 
     ROOT_FIBER = Fiber.current
@@ -28,6 +28,8 @@ module Low
       @key = key
       @action = action
       @children = children
+
+      @created_at = Time.now.to_i
     end
 
     def trigger
