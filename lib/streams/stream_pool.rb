@@ -10,11 +10,15 @@ module Low
 
       def initialize
         @pool = PoolHash.new(BUFFER_SIZE)
-      end      
+      end   
 
       def current_stream
         @pool[stream_id] || @pool.add(stream_id, StreamTree.new)
-      end      
+      end
+      
+      def streams
+        @pool
+      end
 
       private
 
