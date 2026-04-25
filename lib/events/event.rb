@@ -16,7 +16,7 @@ module Low
   # - LowState for state machines to trigger multiple actions [UNLRELEASED]
   class Event
     include LowType
-    include ValueObject
+    include Support::ValueObject
 
     attr_reader :key, :action, :created_at
     attr_accessor :children
