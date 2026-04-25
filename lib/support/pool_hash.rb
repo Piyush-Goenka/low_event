@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Low
-  module Events
+  module Support
     class PoolHash < Hash
       def initialize(max_size)
         @max_size = max_size

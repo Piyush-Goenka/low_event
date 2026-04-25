@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'event_tree'
-require_relative 'pool_hash'
+require_relative '../support/pool_hash'
 
 module Low
   module Events
@@ -9,7 +9,7 @@ module Low
       BUFFER_SIZE = 100.freeze
 
       def initialize
-        @pool = PoolHash.new(BUFFER_SIZE)
+        @pool = Support::PoolHash.new(BUFFER_SIZE)
       end
 
       def current_stream
