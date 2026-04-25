@@ -16,7 +16,7 @@ module Low
         @pool[stream_id] || @pool.add(stream_id, EventTree.new)
       end
       
-      def events
+      def event_trees
         @pool
       end
 
