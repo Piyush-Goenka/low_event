@@ -6,7 +6,7 @@ require_relative '../fixtures/parent_event'
 
 RSpec.describe 'Event Tree' do
   # 1. Using numerical keys to ensure unique key/observers in each context. Could reset Observers instead before requiring parent observer.
-  # 2. Currently resetting fibers per context to create a new StreamTree (stores root event). Could dependency inject 'low.event.pool' instead.
+  # 2. Currently resetting fibers per context to create a new EventTree (stores root event). Could dependency inject 'low.event.pool' instead.
   context 'when an event happens after an event' do
     let(:parent_event) { ParentEvent.new(key: 1) }
     let(:child_event) { ChildEvent.new(key: 2) }

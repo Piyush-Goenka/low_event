@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
+require_relative 'event_tree'
 require_relative 'pool_hash'
-require_relative 'stream_tree'
 
 module Low
-  module Streams
-    class StreamPool
+  module Events
+    class EventPool
       BUFFER_SIZE = 100.freeze
 
       def initialize
         @pool = PoolHash.new(BUFFER_SIZE)
-      end   
+      end
 
       def current_stream
-        @pool[stream_id] || @pool.add(stream_id, StreamTree.new)
+        @pool[stream_id] || @pool.add(stream_id, EventTree.new)
       end
       
-      def streams
+      def events
         @pool
       end
 

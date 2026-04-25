@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'observers'
-require_relative '../streams/stream_pool'
 require_relative '../support/value_object'
 
 module Low
@@ -12,7 +11,7 @@ module Low
   # The result of the previous event is made available to the next event. [UNRELEASED]
   #
   # Integrations:
-  # - StreamPool for a tree of events and their child events [IN PROGRESS]
+  # - EventPool for a tree of events and their child events [IN PROGRESS]
   # - Observers for observer pattern via an event-centric API [IN PROGRESS]
   # - LowState for state machines to trigger multiple actions [UNLRELEASED]
   class Event
@@ -33,29 +32,29 @@ module Low
     end
 
     def trigger
-      stream_tree = branch(event: self)
+      event_tree = branch
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-      key.trigger(event: self) { restore_level(stream_tree:) }
+      key.trigger(event: self) { restore_level(event_tree:) }
     end
 
     def take
-      stream_tree = branch(event: self)
+      event_tree = branch
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
-      key.take(event: self) { restore_level(stream_tree:) }
+      key.take(event: self) { restore_level(event_tree:) }
     end
 
     private
 
-    def branch(event:)
+    def branch
       # Don't create a singular ever-growing stream tree.
       return nil if ROOT_FIBER == Fiber.current
 
-      stream_tree = Low::Providers['low.event.pool'].current_stream
-      stream_tree.branch(event: self)
+      event_tree = Low::Providers['low.event.pool'].current_stream
+      event_tree.branch(event: self)
     end
 
-    def restore_level(stream_tree:)
-      stream_tree.current_event = self if stream_tree.respond_to?(:current_event)
+    def restore_level(event_tree:)
+      event_tree.current_event = self if event_tree.respond_to?(:current_event)
     end
 
     class << self

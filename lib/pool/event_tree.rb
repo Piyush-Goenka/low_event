@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Low
-  module Streams
-    class StreamTree
+  module Events
+    class EventTree
       attr_reader :root_event
       attr_accessor :current_event
 
@@ -11,6 +11,7 @@ module Low
         @current_event = nil
       end
 
+      # TODO: Events can do their own branching?
       def branch(event:)
         if @root_event.nil?
           @root_event = event
