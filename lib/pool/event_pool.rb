@@ -12,7 +12,7 @@ module Low
         @pool = Support::PoolHash.new(BUFFER_SIZE)
       end
 
-      def current_stream
+      def current_event_tree
         @pool[stream_id] || @pool.add(stream_id, EventTree.new)
       end
       

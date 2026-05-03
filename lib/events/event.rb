@@ -49,7 +49,7 @@ module Low
       # Don't create a singular ever-growing stream tree.
       return nil if ROOT_FIBER == Fiber.current
 
-      event_tree = Low::Providers['low.event.pool'].current_stream
+      event_tree = Low::Providers['low.event.pool'].current_event_tree
       event_tree.branch(event: self)
     end
 
