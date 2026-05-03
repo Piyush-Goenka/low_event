@@ -21,7 +21,7 @@ module Low
     attr_reader :key, :action, :created_at
     attr_accessor :children
 
-    ROOT_FIBER = Fiber.current
+    ROOT_FIBER = Fiber.current.object_id
 
     def initialize(key:, action: nil, children: [])
       @key = key
@@ -31,12 +31,16 @@ module Low
     end
 
     def trigger
+      Fiber.blocking { binding.irb }
+
       event_tree = branch
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
       key.trigger(event: self) { restore_level(event_tree:) }
     end
 
     def take
+      Fiber.blocking { binding.irb }
+
       event_tree = branch
       key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
       key.take(event: self) { restore_level(event_tree:) }
@@ -45,8 +49,9 @@ module Low
     private
 
     def branch
+      Fiber.blocking { binding.irb }
       # Don't create a singular ever-growing stream tree.
-      return nil if ROOT_FIBER == Fiber.current
+      return nil if ROOT_FIBER == Fiber.current.object_id
 
       event_tree = Low::Providers['low.event.pool'].current_event_tree
       event_tree.branch(event: self)

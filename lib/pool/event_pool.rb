@@ -23,7 +23,7 @@ module Low
       private
 
       def stream_id
-        Fiber.current
+        Fiber.current.object_id
       end
     end
   end
