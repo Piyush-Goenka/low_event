@@ -7,8 +7,8 @@ module Low
     class StatusEvent < Event
       attr_reader :status, :request
 
-      def initialize(status:, request:)
-        super()
+      def initialize(status:, request:, action: :render)
+        super(key: status, action:)
 
         @status = status
         @request = request
