@@ -3,16 +3,19 @@
 module Low
   module Events
     class EventTree
-      attr_reader :root_event
+      attr_reader :root_event, :sequence
       attr_accessor :current_event
 
       def initialize
         @root_event = nil
         @current_event = nil
+
+        @sequence = []
       end
 
-      # TODO: Events can do their own branching?
       def branch(event:)
+        @sequence << event
+
         if @root_event.nil?
           @root_event = event
           @current_event = event
