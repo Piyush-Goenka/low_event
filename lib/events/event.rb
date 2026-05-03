@@ -11,8 +11,8 @@ module Low
   # The result of the previous event is made available to the next event. [UNRELEASED]
   #
   # Integrations:
+  # - Observers for observer pattern via an event-centric API
   # - EventPool for a tree of events and their child events [IN PROGRESS]
-  # - Observers for observer pattern via an event-centric API [IN PROGRESS]
   # - LowState for state machines to trigger multiple actions [UNLRELEASED]
   class Event
     include LowType
@@ -27,8 +27,7 @@ module Low
       @key = key
       @action = action
       @children = children
-
-      @created_at = Time.now.to_i
+      @created_at = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
     end
 
     def trigger
