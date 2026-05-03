@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Minor features that don't break backwards compatibility are released as patches.
 
+## 0.4.0
+
+### Added
+
+- Introduce event pool and event tree
+- Timestamp when events are created
+
+### Changed
+
+- StatusEvent: Default to render action
+
+### Fixed
+
+- Fix bug where `@key` instance variable wasn't populated yet
+
 ## 0.3.0
 
 ### Added
