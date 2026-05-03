@@ -12,7 +12,7 @@ module Low
   #
   # Integrations:
   # - Observers for observer pattern via an event-centric API
-  # - EventPool for a tree of events and their child events [IN PROGRESS]
+  # - EventPool for a tree of events and their child events
   # - LowState for state machines to trigger multiple actions [UNLRELEASED]
   class Event
     include LowType
