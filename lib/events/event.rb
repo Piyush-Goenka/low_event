@@ -34,15 +34,13 @@ module Low
       Fiber.blocking { binding.irb }
 
       event_tree = branch
-      key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
+      key = Observers[@key]
       key.trigger(event: self) { restore_level(event_tree:) }
     end
 
     def take
-      Fiber.blocking { binding.irb }
-
       event_tree = branch
-      key = Observers::Keys[@key] || raise(Observers::Keys::MissingKeyError)
+      key = Observers[@key]
       key.take(event: self) { restore_level(event_tree:) }
     end
 
