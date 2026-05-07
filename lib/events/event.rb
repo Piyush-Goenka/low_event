@@ -31,8 +31,6 @@ module Low
     end
 
     def trigger
-      Fiber.blocking { binding.irb }
-
       event_tree = branch
       key = Observers[@key]
       key.trigger(event: self) { restore_level(event_tree:) }
@@ -47,7 +45,6 @@ module Low
     private
 
     def branch
-      Fiber.blocking { binding.irb }
       # Don't create a singular ever-growing stream tree.
       return nil if ROOT_FIBER == Fiber.current.object_id
 
