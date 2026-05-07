@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'observers'
+require_relative 'branch_event'
 
 module Low
   module Events
@@ -19,15 +20,14 @@ module Low
       def branch(event:)
         @sequence << event
 
-        # TODO: Render individual stream instead of all streams.
-        trigger key: Low::Events::EventPool, action: :redraw_streams
-
         if @root_event.nil?
           @root_event = event
           @current_event = event
         else
           @current_event.children << event
         end
+
+        trigger key: BranchEvent, action: :branch, event: BranchEvent.new(event_tree: self, event:)
       end
     end
   end
