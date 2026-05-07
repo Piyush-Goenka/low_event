@@ -10,8 +10,7 @@ group :development do
   gem 'low_dependency', path: '../low_dependency'
   gem 'low_type', path: '../lowtype'
 
-  gem 'pry'
-  gem 'pry-nav'
+  gem 'irb'
   gem 'rack'
   gem 'rack-test'
   gem 'rake', '~> 13.0'
