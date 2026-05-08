@@ -6,9 +6,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'observers', path: '../observers'
-  gem 'low_dependency', path: '../low_dependency'
   gem 'low_type', path: '../lowtype'
+  gem 'observers', path: '../observers'
+  gem 'providers', path: '../providers'
 
   gem 'irb'
   gem 'rack'
