@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'low_type', path: '../lowtype'
+  gem 'low_type', path: '../low_type'
   gem 'observers', path: '../observers'
   gem 'providers', path: '../providers'
 
