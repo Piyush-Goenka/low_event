@@ -8,10 +8,11 @@ module Low
     class EventTree
       include Observers
 
-      attr_reader :root_event, :sequence
+      attr_reader :request_id, :root_event, :sequence
       attr_accessor :current_event
 
-      def initialize
+      def initialize(request_id: nil)
+        @request_id = request_id
         @root_event = nil
         @current_event = nil
         @sequence = []
@@ -27,7 +28,7 @@ module Low
           @current_event.children << event
         end
 
-        trigger key: BranchEvent, action: :branch, event: BranchEvent.new(event_tree: self, event:)
+        trigger action: :branch, event: BranchEvent.new(event_tree: self, event:)
       end
     end
   end
