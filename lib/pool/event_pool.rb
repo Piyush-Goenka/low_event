@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'observers'
+
+require_relative '../events/request_event'
 require_relative 'event_tree'
 require_relative '../support/pool_hash'
 
@@ -13,9 +15,12 @@ module Low
 
       def initialize
         @pool = Support::PoolHash.new(BUFFER_SIZE)
+        @request_counts = Support::PoolHash.new(BUFFER_SIZE)
       end
 
-      def current_event_tree
+      def current_event_tree(event:)
+        request_id = request_id(event:)
+
         return @pool[request_id] if @pool[request_id]
 
         event_tree = @pool.add(request_id, EventTree.new(request_id:))
@@ -30,8 +35,15 @@ module Low
 
       private
 
-      def request_id
-        Fiber.current.object_id
+      def request_id(event:)
+        fiber_id = Fiber.current.object_id
+        increment_request_counts(fiber_id:) if event.is_a?(RequestEvent)
+        "#{fiber_id}-#{@request_counts[fiber_id]}"
+      end
+
+      def increment_request_counts(fiber_id:)
+        @request_counts[fiber_id] ||= 0
+        @request_counts[fiber_id] += 1
       end
     end
   end

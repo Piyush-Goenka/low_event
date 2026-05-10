@@ -21,8 +21,6 @@ module Low
     attr_reader :key, :action, :created_at
     attr_accessor :children
 
-    ROOT_FIBER = Fiber.current.object_id
-
     def initialize(key:, action: nil, children: [])
       @key = key
       @action = action
@@ -45,10 +43,7 @@ module Low
     private
 
     def branch
-      # Don't create a singular ever-growing stream tree.
-      return nil if ROOT_FIBER == Fiber.current.object_id
-
-      event_tree = Providers['low.event.pool'].current_event_tree
+      event_tree = Providers['low.event.pool'].current_event_tree(event: self)
       event_tree.branch(event: self)
     end
 
