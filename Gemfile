@@ -6,12 +6,11 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
+  gem 'low_type', path: '../low_type'
   gem 'observers', path: '../observers'
-  gem 'low_dependency', path: '../low_dependency'
-  gem 'low_type', path: '../lowtype'
+  gem 'providers', path: '../providers'
 
-  gem 'pry'
-  gem 'pry-nav'
+  gem 'irb'
   gem 'rack'
   gem 'rack-test'
   gem 'rake', '~> 13.0'

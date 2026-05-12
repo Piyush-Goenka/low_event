@@ -8,7 +8,7 @@ class ParentObserver
   include Observers
   observe 3
 
-  def self.handle(event:)
+  def self.handle(event:) # rubocop:disable Lint/UnusedMethodArgument
     ChildEvent.new(key: 4).trigger
   end
 end

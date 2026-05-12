@@ -11,7 +11,11 @@ module Low
 
       def add(key, value)
         # Prune the hash when a new item added.
-        shift if size >= @max_size && !key?(key)
+        if size >= @max_size && !key?(key)
+          # TODO: Notify event pool that item was removed.
+          _old_key, _old_value = shift
+        end
+
         self[key] = value
       end
     end

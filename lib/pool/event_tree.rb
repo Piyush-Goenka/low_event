@@ -1,15 +1,20 @@
 # frozen_string_literal: true
 
+require 'observers'
+require_relative 'branch_event'
+
 module Low
   module Events
     class EventTree
-      attr_reader :root_event, :sequence
+      include Observers
+
+      attr_reader :request_id, :root_event, :sequence
       attr_accessor :current_event
 
-      def initialize
+      def initialize(request_id: nil)
+        @request_id = request_id
         @root_event = nil
         @current_event = nil
-
         @sequence = []
       end
 
@@ -22,6 +27,8 @@ module Low
         else
           @current_event.children << event
         end
+
+        trigger action: :branch, event: BranchEvent.new(event_tree: self, event:)
       end
     end
   end
