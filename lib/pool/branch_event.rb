@@ -9,7 +9,7 @@ module Low
 
       def initialize(event_tree:, event:)
         super(key: BranchEvent, action: :branch)
-        
+
         @event_tree = event_tree
         @event = event
       end

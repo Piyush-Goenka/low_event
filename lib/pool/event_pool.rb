@@ -11,7 +11,7 @@ module Low
     class EventPool
       include Observers
 
-      BUFFER_SIZE = 100.freeze
+      BUFFER_SIZE = 100
 
       def initialize
         @pool = Support::PoolHash.new(BUFFER_SIZE)
@@ -28,7 +28,7 @@ module Low
 
         event_tree
       end
-      
+
       def event_trees
         @pool
       end

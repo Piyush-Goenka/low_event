@@ -13,7 +13,7 @@ module Low
         # Prune the hash when a new item added.
         if size >= @max_size && !key?(key)
           # TODO: Notify event pool that item was removed.
-          old_key, old_value = shift
+          _old_key, _old_value = shift
         end
 
         self[key] = value
